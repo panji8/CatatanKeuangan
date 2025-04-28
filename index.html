@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Catatan Keuangan</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      background: #f2f2f2;
+    }
+    h1 {
+      text-align: center;
+      color: #333;
+    }
+    form {
+      background: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      max-width: 400px;
+      margin: 0 auto;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    label {
+      display: block;
+      margin-bottom: 5px;
+      color: #555;
+    }
+    input, select, button {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    button {
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #45a049;
+    }
+  </style>
+</head>
+<body>
+  <h1>Catatan Keuangan</h1>
+  <form id="finance-form">
+    <label for="tanggal">Tanggal:</label>
+    <input type="date" name="tanggal" id="tanggal" required>
+
+    <label for="jenis">Jenis:</label>
+    <select name="jenis" id="jenis" required>
+      <option value="Pemasukan">Pemasukan</option>
+      <option value="Pengeluaran">Pengeluaran</option>
+      <option value="Saving">Saving</option>
+    </select>
+
+    <label for="nominal">Nominal:</label>
+    <input type="number" name="nominal" id="nominal" required>
+
+    <label for="keterangan">Keterangan:</label>
+    <input type="text" name="keterangan" id="keterangan" required>
+
+    <button type="submit">Kirim</button>
+  </form>
+
+  <script>
+    const form = document.getElementById('finance-form');
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const formData = new FormData(form);
+      const data = Object.fromEntries(formData.entries());
+
+      try {
+        const response = await fetch('https://script.google.com/macros/s/AKfycbzk44mSmWkNretZavudkc5csNA1QnpEVbyTXquyFhSYpiOlvsoNaQxZ-_9DgjUi9gMFsg/exec', {
+          method: 'POST',
+          body: JSON.stringify(data),
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        });
+
+        if (response.ok) {
+          alert('Data berhasil dikirim!');
+          form.reset();
+        } else {
+          alert('Gagal mengirim data.');
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        alert('Terjadi kesalahan saat mengirim data.');
+      }
+    });
+  </script>
+</body>
+</html>
